@@ -2,7 +2,7 @@ import React from 'react';
 
 const ChatContainer = () => {
     return (
-        <div>
+        <div className='' >
             all chats will be here
         </div>
     );
