@@ -1,5 +1,5 @@
 // import React from 'react';
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ChatContainer from "../components/ChatContainer";
 import Header from "../components/Header";
 
@@ -22,8 +22,14 @@ const Home = () => {
         "Take a deep breath and let go of any stress.",
         "Always look for the silver lining. Always look for the silver lining. Always look for the silver lining. Always look for the silver lining. Always look for the silver lining. Always look for the silver lining. ",
     ]);
+    const [options, setOptions] = useState(["yes", "no"]);
     const [input, setInput] = useState("");
+    const [height, setHeight] = useState(0)
+    const ref = useRef(null)
 
+    useEffect(() => {
+        setHeight(ref.current.clientHeight)
+    })
     // const questions_options = {
     //     "স্বাগতম! তোমার প্রবিধান কত?": ["2016", "2022"],
     //     "তুমি কোন সেমিস্টারে পড়ো?": ["1st", "2nd", "3rd", "4th", "5th", "6th", "7th", "8th"],
@@ -32,11 +38,26 @@ const Home = () => {
 
     return (
         <div className="grid grid-rows-[1fr,10fr,1fr] h-full chat-bg">
+
             <Header />
-            <ChatContainer conversations={conversation} />
+
+            <ChatContainer conversations={conversation} bottomMargin={height} />
+
+            {/* option boxes */}
+            <div ref={ref} id="options" className="px-6 flex justify-end bg-transparent w-screen absolute bottom-20 mt-5 space-x-4">
+                {
+                    options.map((option, index) => <button
+                        onClick={(e) => console.log(e.target.value)}
+                        value={option}
+                        key={index}
+                        className="rounded-full px-5 py-3 bg-white bg-opacity-5 border border-white ">
+                        {option}
+                    </button>)
+                }
+            </div>
 
             {/* input */}
-            <div className="relative drop-shadow-xl ">
+            <div className="relative drop-shadow-xl min-h-[3.125rem]">
                 <input
                     type="text"
                     className="px-10 py-3 h-full w-full rounded-lg border border-gray-300 focus:outline-none bg-white text-black"
