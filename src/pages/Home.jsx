@@ -1,8 +1,28 @@
 // import React from 'react';
+import { useState } from "react";
 import ChatContainer from "../components/ChatContainer";
 import Header from "../components/Header";
 
 const Home = () => {
+    const [question_options, setQuestion_options] = useState({});
+    const [conversation, setConversation] = useState([
+        "Hello, how are you today?",
+        "Hope you're having a great day!",
+        "What's new with you?",
+        "I'm here to help you. What can I do for you?",
+        "Remember to stay hydrated!",
+        "Have you tried the new restaurant in town?",
+        "Wishing you a fantastic week ahead!",
+        "Don't forget to take breaks and relax.",
+        "You're doing great, keep it up!",
+        "Sending positive vibes your way.",
+        "Let's make today amazing!",
+        "Remember to smile, it's contagious!",
+        "I believe in you. You've got this!",
+        "Take a deep breath and let go of any stress.",
+        "Always look for the silver lining. Always look for the silver lining. Always look for the silver lining. Always look for the silver lining. Always look for the silver lining. Always look for the silver lining. ",
+    ]);
+    const [input, setInput] = useState("");
 
     // const questions_options = {
     //     "স্বাগতম! তোমার প্রবিধান কত?": ["2016", "2022"],
@@ -11,15 +31,15 @@ const Home = () => {
     // }
 
     return (
-        <div className="grid grid-rows-[1fr,10fr,1fr] h-full">
+        <div className="grid grid-rows-[1fr,10fr,1fr] h-full chat-bg">
             <Header />
-            <ChatContainer />
+            <ChatContainer conversations={conversation} />
 
             {/* input */}
-            <div className="relative">
+            <div className="relative drop-shadow-xl ">
                 <input
                     type="text"
-                    className="px-10 py-3 h-full w-full rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-green bg-white"
+                    className="px-10 py-3 h-full w-full rounded-lg border border-gray-300 focus:outline-none bg-white text-black"
                     placeholder="Type your message..."
                 />
                 <button className="absolute right-4 top-1/2 transform -translate-y-1/2 rounded-lg p-2 text-green hover:text-white bg-white hover:bg-green focus:outline-none">

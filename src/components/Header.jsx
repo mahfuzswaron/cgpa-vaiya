@@ -2,7 +2,7 @@ import React from 'react';
 
 const Header = () => {
     return (
-        <div className="flex justify-between items-center p-3 rounded-lg bg-white text-green">
+        <div className="flex justify-between items-center p-3 bg-white rounded-b-lg drop-shadow-2xl text-black ">
             <div>CGPA Vaiay</div>
             <div>i button </div>
         </div>
