@@ -4,7 +4,7 @@ import MessageBox from "./MessageBox.jsx";
 const ChatContainer = ({ conversations, bottomMargin }) => {
 
     return (
-        <div className='flex flex-col-reverse overflow-auto'>
+        <div id='chat-container' className='flex flex-col-reverse overflow-auto'>
             <div className={`p-3 space-y-5 max-h-min`}>
                 {
                     conversations.map((message, index) => (
