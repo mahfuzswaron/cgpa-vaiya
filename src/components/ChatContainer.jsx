@@ -10,8 +10,8 @@ const ChatContainer = ({ conversations, bottomMargin }) => {
                     conversations.map((message, index) => (
                         <MessageBox
                             key={index}
-                            index={index}
-                            message={message}
+                            message={message.message}
+                            sender={message.sender}
                             style={{
                                 marginBottom: index === conversations.length - 1 ? `${bottomMargin + 10}px` : '0',
                             }}

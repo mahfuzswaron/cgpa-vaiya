@@ -7,10 +7,13 @@ import Header from "../components/Header";
 const questions_options = [
     {
         "question": "স্বাগতম! বলো, কত সিজিপিএ পেতে চাও?",
-        "options": [],
+        "response_type": "text-input",
+        "querry": "target"
     },
     {
         "question": "তোমার প্রবিধান কত?",
+        "response_type": "option",
+        "querry": "scale",
         "options": [
             {
                 "label": "2016",
@@ -25,86 +28,108 @@ const questions_options = [
     },
     {
         "question": "তুমি কোন সেমিস্টারে পড়ো?",
+        "response_type": "option",
+        "querry": "semester",
         "options": [
-            { label: '1st', value: 1 },
-            { label: '2nd', value: 2 },
-            { label: '3rd', value: 3 },
-            { label: '4th', value: 4 },
-            { label: '5th', value: 5 },
-            { label: '6th', value: 6 },
-            { label: '7th', value: 7 },
-            { label: '8th', value: 8 }
+            { "label": '1st', "value": 1 },
+            { "label": '2nd', "value": 2 },
+            { "label": '3rd', "value": 3 },
+            { "label": '4th', "value": 4 },
+            { "label": '5th', "value": 5 },
+            { "label": '6th', "value": 6 },
+            { "label": '7th', "value": 7 },
+            { "label": '8th', "value": 8 }
         ]
         ,
     },
     {
         "question": "পূর্ববর্তী রেজাল্ট বলো",
-        "options": [],
-        "hasResult": true
+        "response_type": "option-input",
+        "querry": "previous_result",
+        "option_input_keys": ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th']
     },
 ];
 
 const Home = () => {
-    // const [question_options, setQuestion_options] = useState({});
     const [conversation, setConversation] = useState([]);
     const [options, setOptions] = useState([]);
-    const [inputs, setInputs] = useState("");
+    const [option_input_keys, setOption_input_keys] = useState([]);
+    const [inputs, setInputs] = useState({});
     const [index, setIndex] = useState(0);
-    const [canText, setCanText] = useState(true);
-    const [preResultInputNum, setPreResultInputNum] = useState(3);
+    const [canText, setCanText] = useState(false);
+    // const [semester, setSemester] = useState(3);
+    const [currentQuerry, setCurrentQuerry] = useState("");
     const [height, setHeight] = useState(0)
-    const ref = useRef(null);
-    const form = useRef(null);
+    const options_div_ref = useRef(null);
+
+
     const showResult = () => {
         console.log("result pending")
     }
 
 
     useEffect(() => {
-        setHeight(ref.current.clientHeight)
+        setHeight(options_div_ref.current.clientHeight)
     })
 
     useEffect(() => {
-        setOptions([]);
-        const QnO = questions_options[index];
-        const { question, options, hasResult } = QnO;
 
-        if (hasResult !== undefined) {
-            const semester = inputs[inputs.length - 1];
-            if (semester > 1) {
-                setPreResultInputNum(semester - 1);
+        setOptions([]);
+
+        const QnO = questions_options[index];
+        const { question, querry, options, response_type, option_input_keys } = QnO;
+
+        const message = { sender: "vaiya", message: question }
+        setConversation([...conversation, message]);
+
+        if (response_type === "text-input") {
+            setCanText(true)
+        } else if (response_type === "option") {
+            setCanText(false);
+            setOptions(options)
+        } else if (response_type === "option-input") {
+            setCanText(false);
+            if (querry === "previous_result") {
+                setOption_input_keys(option_input_keys.slice(0, inputs.semester));
             } else {
-                showResult()
+                setOption_input_keys(option_input_keys)
             }
         }
 
-        setConversation([...conversation, question]);
-        const hasOptions = options.length;
-        if (hasOptions) {
-            setCanText(false);
-            setOptions(options)
-        }
-        else if (!hasOptions) {
-            setCanText(true)
-        }
+
         setIndex(index + 1)
+
     }, [inputs])
 
-    const handleSend = () => {
+    const handleSubmitTextInput = () => {
         const inputBox = document.getElementById("chat-input");
-        const message = inputBox.value;
-        if (message.trim().length) {
+        const text = inputBox.value;
+        if (text.trim().length) {
+            const message = { sender: "user", message: text }
             setConversation([...conversation, message]);
-            setInputs([...inputs, message]);
+            if (canText) {
+                setInputs({ ...inputs, [currentQuerry]: text });
+            } else if (!canText) {
+                let message = "যেকোনো একটা অপশনে ক্লিক করো";
+                if (option_input_keys.length) {
+                    message = "বাবল ইনপুটে লিখে সেন্ড করো"
+                }
+                setConversation([...conversation, { sender: "vaiya", message: message }])
+            }
             inputBox.value = ""
         }
     }
 
-    const handleResultSubmit = e => {
+    const handleSubmitOptionInput = e => {
         e.preventDefault();
-        const previeousResult = [...e.target.children].slice(0, preResultInputNum).map(input => input.value).join(",");
+        const previeousResult = [...e.target.children].slice(0, semester).map(input => input.value).join(",");
 
         e.target.reset()
+    }
+
+    const handleSubmitOption = (value, label) => {
+        setConversation([...conversation, { sender: "user", message: label }]);
+        setInputs({ ...inputs, [currentQuerry]: value });
     }
 
 
@@ -116,43 +141,24 @@ const Home = () => {
             <ChatContainer conversations={conversation} bottomMargin={height} />
 
             {/* option boxes */}
-            <div ref={ref} id="options" className="px-6 flex justify-end bg-transparent w-screen absolute bottom-14 mt-5 space-x-4">
+            <div ref={options_div_ref} id="options" className="px-6 flex justify-end bg-transparent w-screen absolute bottom-14 mt-5 space-x-4">
                 {
                     options.map(({ label, value }, index) => <button
-                        onClick={e => {
-                            setConversation([...conversation, label]);
-                            setInputs([...inputs, value])
-                        }}
-                        value={value}
                         key={index}
+                        value={value}
+                        onClick={(e) => handleSubmitOption(e.target.value, label)}
                         className="rounded-full px-5 py-3 bg-white bg-opacity-20 border-2 border-white ">
                         {label}
                     </button>)
                 }
                 {
-                    <form ref={form} onSubmit={handleResultSubmit} className="flex flex-wrap justify-end w-[60vw] ">
-                        {
-                            new Array(preResultInputNum).fill(0).map((_, i) => <input
-                                key={i}
-                                type="number"
-                                required={true}
-                                placeholder={`${i + 1}`}
-                                className="rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white" />)
-                        }
-                        <button
-                            type="submit"
-                            className="flex justify-center rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                            </svg>
+                    <form className="flex flex-wrap justify-end w-[60vw] ">
 
-                        </button>
                     </form>
                 }
             </div>
 
-            {/* input */}
+            {/* text input */}
             <div className="relative drop-shadow-xl min-h-[3.125rem]">
                 <input
                     id="chat-input"
@@ -161,7 +167,7 @@ const Home = () => {
                     placeholder="Type your message..."
                 />
                 <button
-                    onClick={handleSend}
+                    onClick={handleSubmitTextInput}
                     className="absolute right-4 top-1/2 transform -translate-y-1/2 rounded-lg p-2 text-green hover:text-white bg-white hover:bg-green focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" className="h-4 w-4 m-1 md:m-0" strokeWidth="2"><path d="M.5 1.163A1 1 0 0 1 1.97.28l12.868 6.837a1 1 0 0 1 0 1.766L1.969 15.72A1 1 0 0 1 .5 14.836V10.33a1 1 0 0 1 .816-.983L8.5 8 1.316 6.653A1 1 0 0 1 .5 5.67V1.163Z" fill="currentColor"></path></svg>
                 </button>
@@ -175,3 +181,22 @@ const Home = () => {
 };
 
 export default Home;
+
+
+/* 
+
+options = 
+input-options = "rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white"
+
+tick button = 
+<button
+                            type="submit"
+                            className="flex justify-center rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white"
+                        >
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                            </svg>
+
+                        </button>
+
+*/
