@@ -1,4 +1,10 @@
+/* poppins */
+
 @import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
+
+/* Hind shiliguri */
+
+@import url(https://fonts.googleapis.com/css?family=Hind+Siliguri:300,regular,500,600,700);
 
 @tailwind base;
 @tailwind components;
@@ -14,7 +20,7 @@
   color: rgba(255, 255, 255, 0.87);
   /* background-image: url("./assets/chat-bg.svg"); */
   /* background-image: url("./assets/chat-bg.svg"); */
-  background-color: #082a01;
+  /* background-color: #082a01; */
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -68,6 +74,10 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.font-hind-siliguri {
+  font-family: 'Hind Siliguri';
 }
 
 .chat-bg {
