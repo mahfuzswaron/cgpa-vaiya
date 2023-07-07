@@ -2,7 +2,7 @@
 import { useState, useRef, useEffect } from "react";
 import ChatContainer from "../components/ChatContainer";
 import Header from "../components/Header";
-
+import { useForm } from "react-hook-form";
 
 const questions_options = [
     {
@@ -55,16 +55,22 @@ const Home = () => {
     const [options, setOptions] = useState([]);
     const [option_input_keys, setOption_input_keys] = useState([]);
     const [inputs, setInputs] = useState({});
-    const [index, setIndex] = useState(0);
+    const [questionCount, setQuestionCount] = useState(0);
     const [canText, setCanText] = useState(false);
-    // const [semester, setSemester] = useState(3);
     const [currentQuerry, setCurrentQuerry] = useState("");
     const [height, setHeight] = useState(0)
     const options_div_ref = useRef(null);
+    const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
+    const handleSubmitOptionInput = data => {
+        const results = Object.values(data).join(",");
+        setInputs({ ...inputs, previous_result: results });
+        setConversation([...conversation, { sender: "user", message: results }])
+    };
 
     const showResult = () => {
-        console.log("result pending")
+        console.log(inputs)
+        setConversation([...conversation, { sender: "vaiya", message: "দাড়াও বলছি..." }])
     }
 
 
@@ -75,12 +81,21 @@ const Home = () => {
     useEffect(() => {
 
         setOptions([]);
+        setOption_input_keys([])
 
-        const QnO = questions_options[index];
+        if (currentQuerry === "previous_result" && inputs.previous_result) {
+            return showResult();
+        }
+
+        const QnO = questions_options[questionCount];
         const { question, querry, options, response_type, option_input_keys } = QnO;
 
         const message = { sender: "vaiya", message: question }
+        if (querry === "previous_result" && inputs.semester < 2) {
+            return showResult();
+        }
         setConversation([...conversation, message]);
+        setCurrentQuerry(querry);
 
         if (response_type === "text-input") {
             setCanText(true)
@@ -90,14 +105,14 @@ const Home = () => {
         } else if (response_type === "option-input") {
             setCanText(false);
             if (querry === "previous_result") {
-                setOption_input_keys(option_input_keys.slice(0, inputs.semester));
+                setOption_input_keys(option_input_keys.slice(0, inputs.semester - 1));
             } else {
                 setOption_input_keys(option_input_keys)
             }
         }
 
 
-        setIndex(index + 1)
+        setQuestionCount(questionCount + 1)
 
     }, [inputs])
 
@@ -118,13 +133,6 @@ const Home = () => {
             }
             inputBox.value = ""
         }
-    }
-
-    const handleSubmitOptionInput = e => {
-        e.preventDefault();
-        const previeousResult = [...e.target.children].slice(0, semester).map(input => input.value).join(",");
-
-        e.target.reset()
     }
 
     const handleSubmitOption = (value, label) => {
@@ -152,8 +160,29 @@ const Home = () => {
                     </button>)
                 }
                 {
-                    <form className="flex flex-wrap justify-end w-[60vw] ">
+                    option_input_keys.length !== 0 && <form onSubmit={handleSubmit(handleSubmitOptionInput)} className="flex flex-wrap justify-end w-[60vw] " >
+                        {
+                            option_input_keys.map(inputKey => <input
+                                key={inputKey}
+                                name={inputKey}
+                                placeholder={inputKey}
+                                type="number"
+                                {...register(inputKey, { required: true, pattern: /^[2-4]\.\d{2}/, max: 4 })}
+                                className={`rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white ${errors[inputKey] ? "border-red" : ""}`}
+                                title={errors[inputKey] && "invalid CGPA"}
+                            />)
+                        }
+                        {
+                            <button
+                                type="submit"
+                                className="flex justify-center rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white"
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                                </svg>
 
+                            </button>
+                        }
                     </form>
                 }
             </div>
