@@ -13,7 +13,7 @@ const ChatContainer = ({ conversations, bottomMargin }) => {
                             message={message.message}
                             sender={message.sender}
                             style={{
-                                marginBottom: index === conversations.length - 1 ? `${bottomMargin + 10}px` : '0',
+                                marginBottom: index === conversations.length - 1 ? `${bottomMargin + 15}px` : '0',
                             }}
                         />
                     ))

@@ -151,7 +151,7 @@ const Home = () => {
             <ChatContainer conversations={conversation} bottomMargin={height} />
 
             {/* option boxes */}
-            <div ref={options_div_ref} id="options" className="px-6 flex justify-end bg-transparent w-screen absolute bottom-14 mt-5 space-x-4">
+            <div ref={options_div_ref} id="options" className="px-6 flex justify-end flex-wrap w-screen bg-transparent absolute bottom-14 mt-5 space-x-4">
                 {
                     options.map(({ label, value }, index) => <button
                         key={index}
@@ -169,8 +169,9 @@ const Home = () => {
                                 name={inputKey}
                                 placeholder={inputKey}
                                 type="number"
+                                step={"0.01"}
                                 {...register(inputKey, { required: (index + 2) != inputs["semester"], pattern: /^[2-4]\.\d{2}/, max: 4 })}
-                                className={`rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white ${errors[inputKey] ? "border-red" : ""}`}
+                                className={`rounded-full px-3 py-1 m-[0.15rem] w-20 bg-white bg-opacity-20 border-2 border-white ${errors[inputKey] ? "border-red" : ""}`}
                                 title={errors[inputKey] && "invalid CGPA"}
                             />)
                         }
