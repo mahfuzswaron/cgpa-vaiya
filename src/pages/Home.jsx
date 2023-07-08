@@ -65,8 +65,9 @@ const Home = () => {
     const showResult = () => {
         setConversation([...conversation, { sender: "vaiya", message: "দাড়াও বলছি..." }]);
         const { target, previous_result, scale } = inputs;
-        const querry = `/predict?target=${target}&scale=${scale}&previous_result=${previous_result}`;
-        console.log(querry);
+        const querry = `predict?target=${target}&scale=${scale}&previous_result=${previous_result}`;
+        const url = `http://localhost:5000/${querry}`;
+        fetch(url).then(res => res.json()).then(data => console.log(data));
     }
 
     useEffect(() => {
@@ -136,7 +137,9 @@ const Home = () => {
     }
 
     const handleSubmitOptionInput = data => {
-        const results = Object.values(data).join(",");
+        let results = Object.values(data);
+        if (results[results.length - 1].trim() === "") results.pop();
+        results = results.join(",");
         setInputs({ ...inputs, previous_result: results });
         if (results.trim() === "") return
         setConversation([...conversation, { sender: "user", message: results }])
