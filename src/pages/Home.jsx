@@ -62,17 +62,12 @@ const Home = () => {
     const options_div_ref = useRef(null);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
-    const handleSubmitOptionInput = data => {
-        const results = Object.values(data).join(",");
-        setInputs({ ...inputs, previous_result: results });
-        setConversation([...conversation, { sender: "user", message: results }])
-    };
-
     const showResult = () => {
-        console.log(inputs)
-        setConversation([...conversation, { sender: "vaiya", message: "দাড়াও বলছি..." }])
+        setConversation([...conversation, { sender: "vaiya", message: "দাড়াও বলছি..." }]);
+        const { target, previous_result, scale } = inputs;
+        const querry = `/predict?target=${target}&scale=${scale}&previous_result=${previous_result}`;
+        console.log(querry);
     }
-
 
     useEffect(() => {
         setHeight(options_div_ref.current.clientHeight)
@@ -83,7 +78,7 @@ const Home = () => {
         setOptions([]);
         setOption_input_keys([])
 
-        if (currentQuerry === "previous_result" && inputs.previous_result) {
+        if (currentQuerry === "previous_result" && inputs.previous_result !== undefined) {
             return showResult();
         }
 
@@ -140,6 +135,13 @@ const Home = () => {
         setInputs({ ...inputs, [currentQuerry]: value });
     }
 
+    const handleSubmitOptionInput = data => {
+        const results = Object.values(data).join(",");
+        setInputs({ ...inputs, previous_result: results });
+        if (results.trim() === "") return
+        setConversation([...conversation, { sender: "user", message: results }])
+    };
+
 
     return (
         <div className="grid grid-rows-[1fr,10fr,1fr] h-full chat-bg">
@@ -162,12 +164,12 @@ const Home = () => {
                 {
                     option_input_keys.length !== 0 && <form onSubmit={handleSubmit(handleSubmitOptionInput)} className="flex flex-wrap justify-end w-[60vw] " >
                         {
-                            option_input_keys.map(inputKey => <input
+                            option_input_keys.map((inputKey, index) => <input
                                 key={inputKey}
                                 name={inputKey}
                                 placeholder={inputKey}
                                 type="number"
-                                {...register(inputKey, { required: true, pattern: /^[2-4]\.\d{2}/, max: 4 })}
+                                {...register(inputKey, { required: (index + 2) != inputs["semester"], pattern: /^[2-4]\.\d{2}/, max: 4 })}
                                 className={`rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white ${errors[inputKey] ? "border-red" : ""}`}
                                 title={errors[inputKey] && "invalid CGPA"}
                             />)
