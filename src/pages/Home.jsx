@@ -50,6 +50,8 @@ const questions_options = [
     },
 ];
 
+const semesters = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', "8th"];
+
 const Home = () => {
     const [conversation, setConversation] = useState([]);
     const [options, setOptions] = useState([]);
@@ -58,6 +60,7 @@ const Home = () => {
     const [questionCount, setQuestionCount] = useState(0);
     const [canText, setCanText] = useState(false);
     const [currentQuerry, setCurrentQuerry] = useState("");
+    const [result, setResult] = useState({})
     const [height, setHeight] = useState(0)
     const options_div_ref = useRef(null);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
@@ -67,12 +70,22 @@ const Home = () => {
         const { target, previous_result, scale } = inputs;
         const querry = `predict?target=${target}&scale=${scale}&previous_result=${previous_result}`;
         const url = `http://localhost:5000/${querry}`;
-        fetch(url).then(res => res.json()).then(data => console.log(data));
+        fetch(url).then(res => res.json()).then(data => setResult(data));
     }
 
     useEffect(() => {
         setHeight(options_div_ref.current.clientHeight)
-    })
+    });
+
+    useEffect(() => {
+        if (result.message) {
+            const { cgpa_array, message: description } = result;
+            const cgpaList = semesters.map((semester, index) => `${semester} => ${cgpa_array[index]}`).join("\n")
+            const message = description + "\n" + cgpaList
+            setConversation([...conversation, { sender: "vaiya", message: message }]);
+            setOptions([{ label: "ধন্যবাদ, ভাইয়া 😊", value: "thanks" }, { label: "আরেকটা লিস্ট দিবেন? 🙃", value: "re-generate" }]);
+        }
+    }, [result])
 
     useEffect(() => {
 
@@ -106,7 +119,6 @@ const Home = () => {
                 setOption_input_keys(option_input_keys)
             }
         }
-
 
         setQuestionCount(questionCount + 1)
 
