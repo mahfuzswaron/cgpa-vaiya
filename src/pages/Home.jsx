@@ -60,17 +60,24 @@ const Home = () => {
     const [questionCount, setQuestionCount] = useState(0);
     const [canText, setCanText] = useState(false);
     const [currentQuerry, setCurrentQuerry] = useState("");
-    const [result, setResult] = useState({})
-    const [height, setHeight] = useState(0)
+    const [lang, setLang] = useState('bn')
+    const [actionButtons, setActionButtons] = useState([]);
+    const [result, setResult] = useState({});
+    const [height, setHeight] = useState(0);
     const options_div_ref = useRef(null);
     const { register, handleSubmit, watch, formState: { errors } } = useForm();
 
     const showResult = () => {
         setConversation([...conversation, { sender: "vaiya", message: "দাড়াও বলছি..." }]);
         const { target, previous_result, scale } = inputs;
-        const querry = `predict?target=${target}&scale=${scale}&previous_result=${previous_result}`;
+        let querry = `predict?target=${target}&scale=${scale}`;
+        if (previous_result) querry += `&previous_result=${previous_result}`;
         const url = `http://localhost:5000/${querry}`;
         fetch(url).then(res => res.json()).then(data => setResult(data));
+    }
+    const regenerateResult = (message) => {
+        // setConversation([...conversation, { sender: "user", message: message }]);
+        showResult();
     }
 
     useEffect(() => {
@@ -83,14 +90,20 @@ const Home = () => {
             const cgpaList = semesters.map((semester, index) => `${semester} => ${cgpa_array[index]}`).join("\n")
             const message = description + "\n" + cgpaList
             setConversation([...conversation, { sender: "vaiya", message: message }]);
-            setOptions([{ label: "ধন্যবাদ, ভাইয়া 😊", value: "thanks" }, { label: "আরেকটা লিস্ট দিবেন? 🙃", value: "re-generate" }]);
+            // setOptions([{ label: "ধন্যবাদ, ভাইয়া 😊", value: "thanks" }, { label: "আরেকটা লিস্ট দিবেন? 🙃", value: "re-generate" }]);
+            if (!JSON.stringify(actionButtons).includes("regenerate-result")) {
+                setActionButtons([...actionButtons,
+                { name: "regenerate-result", label: { en: "Another set, please!", bn: "ভাইয়া, আরেকটা সম্ভাব্য রেজাল্ট সেট দিবেন?" }, onclick: regenerateResult },
+                    // {label: {en: "Not satisfied, bro!", bn: "সন্তুষ্ট হলাম না, ভাই!"}, onclick: }
+                ])
+            }
         }
     }, [result])
 
     useEffect(() => {
 
         setOptions([]);
-        setOption_input_keys([])
+        setOption_input_keys([]);
 
         if (currentQuerry === "previous_result" && inputs.previous_result !== undefined) {
             return showResult();
@@ -145,6 +158,9 @@ const Home = () => {
 
     const handleSubmitOption = (value, label) => {
         setConversation([...conversation, { sender: "user", message: label }]);
+        if (result.message) {
+            return
+        }
         setInputs({ ...inputs, [currentQuerry]: value });
     }
 
@@ -166,7 +182,7 @@ const Home = () => {
             <ChatContainer conversations={conversation} bottomMargin={height} />
 
             {/* option boxes */}
-            <div ref={options_div_ref} id="options" className="px-6 flex justify-end flex-wrap w-screen bg-transparent absolute bottom-14 mt-5 space-x-4">
+            <div ref={options_div_ref} id="options" className="px-6 py-4 flex justify-end flex-wrap w-screen bg-transparent absolute bottom-14 mt-5 space-x-4">
                 {
                     options.map(({ label, value }, index) => <button
                         key={index}
@@ -203,6 +219,9 @@ const Home = () => {
                         }
                     </form>
                 }
+                {
+                    actionButtons.length > 0 && actionButtons.map(actionBtn => <button onClick={() => actionBtn.onclick(actionBtn.label[lang])} > {actionBtn.label[lang]} </button>)
+                }
             </div>
 
             {/* text input */}
@@ -215,35 +234,12 @@ const Home = () => {
                 />
                 <button
                     onClick={handleSubmitTextInput}
-                    className="absolute right-4 top-1/2 transform -translate-y-1/2 rounded-lg p-2 text-green hover:text-white bg-white hover:bg-green focus:outline-none">
+                    className="absolute right-4 top-1/2 transform -translate-y-1/2 rounded-lg p-2 text-violet-700 hover:text-white bg-white hover:bg-violet-700 focus:outline-none">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="none" className="h-4 w-4 m-1 md:m-0" strokeWidth="2"><path d="M.5 1.163A1 1 0 0 1 1.97.28l12.868 6.837a1 1 0 0 1 0 1.766L1.969 15.72A1 1 0 0 1 .5 14.836V10.33a1 1 0 0 1 .816-.983L8.5 8 1.316 6.653A1 1 0 0 1 .5 5.67V1.163Z" fill="currentColor"></path></svg>
                 </button>
             </div>
-
-
-
-
         </div>
     );
 };
 
 export default Home;
-
-
-/* 
-
-options = 
-input-options = "rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white"
-
-tick button = 
-<button
-                            type="submit"
-                            className="flex justify-center rounded-full px-3 py-1 m-[0.15rem] w-16 bg-white bg-opacity-20 border-2 border-white"
-                        >
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 12.75l6 6 9-13.5" />
-                            </svg>
-
-                        </button>
-
-*/
