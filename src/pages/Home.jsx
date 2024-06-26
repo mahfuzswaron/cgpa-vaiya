@@ -3,52 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import ChatContainer from "../components/ChatContainer";
 import Header from "../components/Header";
 import { useForm } from "react-hook-form";
-
-const questions_options = [
-    {
-        "question": "স্বাগতম! বলো, কত সিজিপিএ পেতে চাও?",
-        "response_type": "text-input",
-        "querry": "target"
-    },
-    {
-        "question": "তোমার প্রবিধান কত?",
-        "response_type": "option",
-        "querry": "scale",
-        "options": [
-            {
-                "label": "2016",
-                "value": "diploma_2016"
-            }
-            ,
-            {
-                "label": "2022",
-                "value": "diploma_2022"
-            }
-        ],
-    },
-    {
-        "question": "তুমি কোন সেমিস্টারে পড়ো?",
-        "response_type": "option",
-        "querry": "semester",
-        "options": [
-            { "label": '1st', "value": 1 },
-            { "label": '2nd', "value": 2 },
-            { "label": '3rd', "value": 3 },
-            { "label": '4th', "value": 4 },
-            { "label": '5th', "value": 5 },
-            { "label": '6th', "value": 6 },
-            { "label": '7th', "value": 7 },
-            { "label": '8th', "value": 8 }
-        ]
-        ,
-    },
-    {
-        "question": "পূর্ববর্তী রেজাল্ট বলো",
-        "response_type": "option-input",
-        "querry": "previous_result",
-        "option_input_keys": ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th']
-    },
-];
+import { questions_options } from "./data";
 
 const semesters = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', "8th"];
 
@@ -72,13 +27,13 @@ const Home = () => {
         const { target, previous_result, scale } = inputs;
         let querry = `predict?target=${target}&scale=${scale}`;
         if (previous_result) querry += `&previous_result=${previous_result}`;
-        const url = `http://localhost:5000/${querry}`;
+        const url = `https://cgpa-vaiya-server.onrender.com/${querry}`;
         fetch(url).then(res => res.json()).then(data => setResult(data));
     }
-    const regenerateResult = (message) => {
+    /* const regenerateResult = (message) => {
         // setConversation([...conversation, { sender: "user", message: message }]);
         showResult();
-    }
+    } */
 
     useEffect(() => {
         setHeight(options_div_ref.current.clientHeight)
@@ -88,15 +43,10 @@ const Home = () => {
         if (result.message) {
             const { cgpa_array, message: description } = result;
             const cgpaList = semesters.map((semester, index) => `${semester} => ${cgpa_array[index]}`).join("\n")
-            const message = description + "\n" + cgpaList
-            setConversation([...conversation, { sender: "vaiya", message: message }]);
-            // setOptions([{ label: "ধন্যবাদ, ভাইয়া 😊", value: "thanks" }, { label: "আরেকটা লিস্ট দিবেন? 🙃", value: "re-generate" }]);
-            if (!JSON.stringify(actionButtons).includes("regenerate-result")) {
-                setActionButtons([...actionButtons,
-                { name: "regenerate-result", label: { en: "Another set, please!", bn: "ভাইয়া, আরেকটা সম্ভাব্য রেজাল্ট সেট দিবেন?" }, onclick: regenerateResult },
-                    // {label: {en: "Not satisfied, bro!", bn: "সন্তুষ্ট হলাম না, ভাই!"}, onclick: }
-                ])
-            }
+            const message = description + "\n" + cgpaList;
+            const promotionMessage = `এই অনুযায়ী প্রস্তুতি নিতে থাকো। বেস্ট অফ লাক! শীঘ্রই আমার আরও আপডেট আসবে। তুমি আমার থেকে আর কি কি ফিচার চাও আমার ডেভেলপারকে জানাতে পারো। উপরে তার সোশাল মিডিয়া প্রোফাইল লিংক করা আছে।`
+            setConversation([...conversation, { sender: "vaiya", message: message }, {sender: "vaiya", message: promotionMessage} ]);
+            
         }
     }, [result])
 
@@ -119,13 +69,13 @@ const Home = () => {
         setConversation([...conversation, message]);
         setCurrentQuerry(querry);
 
+        // Handling response types.
+        setCanText(false);
         if (response_type === "text-input") {
             setCanText(true)
         } else if (response_type === "option") {
-            setCanText(false);
             setOptions(options)
         } else if (response_type === "option-input") {
-            setCanText(false);
             if (querry === "previous_result") {
                 setOption_input_keys(option_input_keys.slice(0, inputs.semester - 1));
             } else {
@@ -135,24 +85,45 @@ const Home = () => {
 
         setQuestionCount(questionCount + 1)
 
-    }, [inputs])
+    }, [inputs]);
+
+    useEffect(() => {
+        const inputBox = document.getElementById("chat-input");
+        const handleKeyDown = (e) => {
+            if (e.key === "Enter") {
+                handleSubmitTextInput();
+            }
+        };
+        inputBox.addEventListener("keydown", handleKeyDown);
+
+        return () => {
+            inputBox.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [currentQuerry, inputs]);
 
     const handleSubmitTextInput = () => {
         const inputBox = document.getElementById("chat-input");
-        const text = inputBox.value;
-        if (text.trim().length) {
-            const message = { sender: "user", message: text }
-            setConversation([...conversation, message]);
-            if (canText) {
-                setInputs({ ...inputs, [currentQuerry]: text });
-            } else if (!canText) {
-                let message = "যেকোনো একটা অপশনে ক্লিক করো";
-                if (option_input_keys.length) {
-                    message = "বাবল ইনপুটে লিখে সেন্ড করো"
+        const text = inputBox.value.trim();
+        inputBox.value = "";
+
+        if (text.length) {
+
+            if(canText) {
+
+
+                const message = { sender: "user", message: text }
+                setConversation([...conversation, message]);
+
+                // Validate input
+                const regex = /^(2\.\d{2}|3\.\d{2}|4\.00)$/;
+                if (!regex.test(text)) {
+                    setConversation([...conversation, { sender: "vaiya", message: "Please enter a valid CGPA between 2.00 and 4.00 with two decimal places." }]);
+                    return;
                 }
-                setConversation([...conversation, { sender: "vaiya", message: message }])
+
+                setInputs({ ...inputs, [currentQuerry]: text });
+
             }
-            inputBox.value = ""
         }
     }
 
@@ -201,7 +172,7 @@ const Home = () => {
                                 placeholder={inputKey}
                                 type="number"
                                 step={"0.01"}
-                                {...register(inputKey, { required: (index + 2) != inputs["semester"], pattern: /^[2-4]\.\d{2}/, max: 4 })}
+                                {...register(inputKey, { required: (index + 2) !== inputs["semester"], pattern: /^[2-4]\.\d{2}/, max: 4 })}
                                 className={`rounded-full px-3 py-1 m-[0.15rem] w-20 bg-white bg-opacity-20 border-2 border-white ${errors[inputKey] ? "border-red" : ""}`}
                                 title={errors[inputKey] && "invalid CGPA"}
                             />)
@@ -230,7 +201,7 @@ const Home = () => {
                     id="chat-input"
                     type="text"
                     className="px-10 py-3 h-full w-full rounded-lg border border-gray-300 focus:outline-none bg-white text-black"
-                    placeholder="Type your message..."
+                    placeholder={canText ? "Type your targeted CGPA...": "Answer in Options... " }
                 />
                 <button
                     onClick={handleSubmitTextInput}
