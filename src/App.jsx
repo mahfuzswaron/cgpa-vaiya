@@ -1,13 +1,10 @@
-// import { useState } from 'react';
-import Home from "./pages/Home";
+import Bot from './pages/Bot';
 
 function App() {
 
   return (
-    <main className=" ">
-      <div className="">
-        <Home />
-      </div>
+    <main className="w-full">
+      <Bot />
     </main>
 
   )
