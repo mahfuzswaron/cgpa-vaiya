@@ -5,6 +5,7 @@ const MessageParser = ({ children, actions }) => {
         if (message.includes('hello')) {
             actions.handleHello();
         }
+
     };
 
 
@@ -13,7 +14,7 @@ const MessageParser = ({ children, actions }) => {
             {React.Children.map(children, (child) => {
                 return React.cloneElement(child, {
                     parse: parse,
-                    actions: {},
+                    actions: actions,
                 });
             })}
         </div>
