@@ -2,6 +2,7 @@
 import { createChatBotMessage } from 'react-chatbot-kit';
 import Regulation from './widgets/Regulation';
 import Start from './widgets/Start';
+import Regenerate from './widgets/Regenerate';
 
 const botName = 'CGPA Vaiya';
 
@@ -28,6 +29,10 @@ const config = {
             widgetName: 'Regulation',
             widgetFunc: (props) => <Regulation {...props} />,
         },
+        {
+            widgetName: 'Regenerate',
+            widgetFunc: (props) => <Regenerate {...props} />
+        }
     ],
     customStyles: {
         botMessageBox: {

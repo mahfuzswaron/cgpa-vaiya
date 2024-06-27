@@ -2,7 +2,6 @@ import React from 'react';
 import { validateCgpa, validatePrevResults, validateSemester } from '../utils/validatorMethods';
 import { getPredictedResult } from '../utils/get-cgpa-list';
 const semesterLables = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'];
-
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
     const updateState = (botMessage, currentQuery = null) => {
@@ -130,6 +129,20 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         
 
         updateState(botMessage);
+        handleRegenerate()
+    }
+
+
+    const handleRegenerate = () =>{
+        const botMessage = createChatBotMessage("regenarate?",{
+            widget: "Regenerate"
+        })
+
+        updateState(botMessage);
+    }
+
+    const handleClickRegenerate = () =>{
+        displayCgpaList(children.props.children.props.state.userData.previousResults)
     }
 
 
@@ -145,7 +158,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
                         handleRegulation,
                         handleSubmitRegulation,
                         handleSubmitCurrentSemester,
-                        handleSubmitPreviousResults
+                        handleSubmitPreviousResults,
+                        handleClickRegenerate
                     },
                 });
             })}
