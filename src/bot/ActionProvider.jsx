@@ -1,5 +1,6 @@
 import React from 'react';
 import { validateCgpa, validatePrevResults, validateSemester } from '../utils/validatorMethods';
+import { getCgpaList } from '../utils/get-cgpa-list';
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
@@ -62,7 +63,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
     // receives regulation 
     const handleSubmitRegulation = (regulation) => {
-        children.props.children.props.state.userData.regulation = regulation;
         updateUserState({ regulation: regulation })
         handleCurrentSemester()
     }
@@ -98,15 +98,15 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         updateState(botMessage, "previous-results");
     }
 
-    const handleSubmitPreviousResults = (message) => {
+    const handleSubmitPreviousResults = async (message) => {
         const currentSemester = children.props.children.props.state.userData.currentSemester;
         const prevResultLength = currentSemester - 1;
         const { cgpas: prevResult, len } = validatePrevResults(message);
-        console.log(prevResult, len);
+        console.log(prevResult, len)
         // check if the message contains all the result
         if (prevResultLength === len) {
             updateUserState({ previousResults: prevResult });
-            displayCgpaList();
+            displayCgpaList(prevResult)
         }
         else {
             const botMessage = createChatBotMessage("Enter your previous results separeting by commas. eg: 3.00, 3.50, 3.30");
@@ -115,8 +115,16 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }
 
 
-    const displayCgpaList = () => {
-        console.log("here's the result");
+
+    const displayCgpaList = (previousResults = null) => {
+        // get the state 
+        const userState = children.props.children.props.state.userData;
+        getCgpaList({...userState, previousResults});
+
+        // get the cgpa list from the server
+
+        // write a message 
+        // print the cgpa list
     }
 
 
