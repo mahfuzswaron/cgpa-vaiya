@@ -2,8 +2,8 @@ import React from 'react';
 
 const Start = (props) => {
     return (
-        <div>
-            <button onClick={() => props.actions.handleClickStart()}>Let's Start</button>
+        <div className='max-w-fit px-14'>
+            <button className='' onClick={() => props.actions.handleClickStart()}>Let's Start</button>
         </div>
     );
 };

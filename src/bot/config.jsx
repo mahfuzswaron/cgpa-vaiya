@@ -3,6 +3,7 @@ import { createChatBotMessage } from 'react-chatbot-kit';
 import Regulation from './widgets/Regulation';
 import Start from './widgets/Start';
 import Regenerate from './widgets/Regenerate';
+import BotAvatar from '../components/BotAvatar';
 
 const botName = 'CGPA Vaiya';
 
@@ -20,6 +21,10 @@ const config = {
             previousResults: null,
         },
     },
+    // customComponents:{
+    //     botAvatar : (props) => <BotAvatar {...props} />
+    // },
+
     widgets: [
         {
             widgetName: "Start",
@@ -33,15 +38,7 @@ const config = {
             widgetName: 'Regenerate',
             widgetFunc: (props) => <Regenerate {...props} />
         }
-    ],
-    customStyles: {
-        botMessageBox: {
-            backgroundColor: '#376B7E',
-        },
-        chatButton: {
-            backgroundColor: '#5ccc9d',
-        },
-    },
+    ]
 };
 
 export default config;

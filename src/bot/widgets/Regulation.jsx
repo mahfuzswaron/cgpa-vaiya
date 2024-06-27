@@ -6,7 +6,7 @@ const Regulation = (props) => {
         props.actions.handleSubmitRegulation(regulation);
     }
     return (
-        <div>
+        <div className='flex flex-start gap-2 px-14'>
             <button onClick={handleSelectRegulation} value={"diploma_2016"}>2016</button>
             <button onClick={handleSelectRegulation} value={"diploma_2021"}>2021</button>
         </div>

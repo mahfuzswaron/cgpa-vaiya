@@ -125,23 +125,23 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         const { message, cgpa_array } = predictedResult;
 
         const cgpaList = semesterLables.map((semester, index) => `${semester} => ${cgpa_array[index]}`).join("\n")
-        const botMessage = createChatBotMessage(message + "\n" + cgpaList);
-        
+        const botMessage = createChatBotMessage(`${message} \n ${cgpaList}`);
+
 
         updateState(botMessage);
         handleRegenerate()
     }
 
 
-    const handleRegenerate = () =>{
-        const botMessage = createChatBotMessage("regenarate?",{
+    const handleRegenerate = () => {
+        const botMessage = createChatBotMessage("regenarate?", {
             widget: "Regenerate"
         })
 
         updateState(botMessage);
     }
 
-    const handleClickRegenerate = () =>{
+    const handleClickRegenerate = () => {
         displayCgpaList(children.props.children.props.state.userData.previousResults)
     }
 
