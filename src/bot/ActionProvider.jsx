@@ -47,8 +47,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
     const handleSubmitRegulation = (regulation) => {
         children.props.children.props.state.userData.regulation = regulation;
-        
+        handleCurrentSemester()
     }
+
+    const handleCurrentSemester = () => {
+        const botMessage = createChatBotMessage("what's your current semester?");
+        children.props.children.props.state.currentQuery = "current-semester";
+        updateState(botMessage);
+    }
+
+    const handleSubmitCurrentSemester = (message) => {
+        console.log(message);
+    }
+
 
 
 
@@ -59,10 +70,10 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
                     actions: {
                         handleHello,
                         handleClickStart,
-                        handleTargetCgpa,
                         handleSubmitTargetCgpa,
                         handleRegulation,
-                        handleSubmitRegulation: handleSubmitRegulation
+                        handleSubmitRegulation,
+                        handleSubmitCurrentSemester
                     },
                 });
             })}

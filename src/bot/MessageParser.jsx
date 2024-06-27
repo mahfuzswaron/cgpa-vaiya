@@ -12,7 +12,9 @@ const MessageParser = ({ children, actions }) => {
             case "target-cgpa":
                 actions.handleSubmitTargetCgpa(message);
                 break;
-
+            case "current-semester":
+                actions.handleSubmitCurrentSemester(message);
+                break;
             default:
                 break;
         }

@@ -10,3 +10,7 @@ export const validateCgpa = (cgpa) => {
     }
 
 }
+
+export const validateSemester = () =>{
+    
+}

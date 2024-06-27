@@ -13,7 +13,7 @@ const config = {
     state: {
         currentQuery: null,
         userData: {
-            Regulation: null,
+            regulation: null,
             targetedCgpa: null,
             currentSemester: null,
             previousResults: [],
