@@ -1,10 +1,22 @@
 import React from 'react';
 
 const MessageParser = ({ children, actions }) => {
+    const currentQuery = children.props.state.currentQuery;
+
     const parse = (message) => {
         if (message.includes('hello')) {
             actions.handleHello();
         }
+
+        switch (currentQuery) {
+            case "target-cgpa":
+                actions.handleSubmitTargetCgpa(message);
+                break;
+
+            default:
+                break;
+        }
+
 
     };
 

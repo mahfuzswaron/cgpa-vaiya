@@ -3,7 +3,7 @@ import React from 'react';
 const Regulation = (props) => {
     const handleSelectRegulation = (e) => {
         const regulation = e.target.value;
-        props.actions.handleUpdateRegulation(regulation);
+        props.actions.handleSubmitRegulation(regulation);
     }
     return (
         <div>

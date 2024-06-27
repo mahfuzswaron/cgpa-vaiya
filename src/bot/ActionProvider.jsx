@@ -14,6 +14,20 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         updateState(botMessage)
     };
 
+    const handleClickStart = () =>{
+        handleTargetCgpa();
+    }
+
+    const handleTargetCgpa = () => {
+        const botMessage = createChatBotMessage("What's your target CGPA?");
+        children.props.children.props.state.currentQuery = "target-cgpa";
+        updateState(botMessage);
+    }
+
+    const handleSubmitTargetCgpa = (message) => {
+        console.log(message)
+    }
+
     const handleRegulation = () => {
         const botMessage = createChatBotMessage(
             "What's your Regulation?",
@@ -25,9 +39,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
     };
 
-    const handleUpdateRegulation = (regulation) => {
+    const handleSubmitRegulation = (regulation) => {
         children.props.children.props.state.userData.regulation = regulation;
-        // console.log(children.props.children.props.state.userData.regulation);
     }
 
 
@@ -38,8 +51,11 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
                 return React.cloneElement(child, {
                     actions: {
                         handleHello,
+                        handleClickStart,
+                        handleTargetCgpa,
+                        handleSubmitTargetCgpa,
                         handleRegulation,
-                        handleUpdateRegulation
+                        handleSubmitRegulation: handleSubmitRegulation
                     },
                 });
             })}

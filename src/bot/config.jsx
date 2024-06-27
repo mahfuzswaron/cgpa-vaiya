@@ -11,6 +11,7 @@ const config = {
         widget: "Start"
     })],
     state: {
+        currentQuery: null,
         userData: {
             Regulation: null,
             targetedCgpa: null,
