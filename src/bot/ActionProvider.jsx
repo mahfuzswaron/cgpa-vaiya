@@ -26,11 +26,13 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }
 
     const handleSubmitTargetCgpa = (message) => {
-        const cgpa = message.trim();
-        const validCgpa = validateCgpa(cgpa);
+        const validCgpa = validateCgpa(message);
         if (validCgpa) {
-            children.props.children.props.state.userData.targetedCgpa = cgpa;
+            children.props.children.props.state.userData.targetedCgpa = validCgpa;
             handleRegulation();
+        } else {
+            const botMessage = createChatBotMessage("Enter your target cgpa between 2.00 - 4.00");
+            updateState(botMessage);
         }
     }
 

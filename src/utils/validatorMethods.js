@@ -1,13 +1,17 @@
-export const validateCgpa = (cgpa) => {
-    // Convert the cgpa to a floating-point number
-    let floatValue = parseFloat(cgpa);
+export const validateCgpa = (text) => {
+    // Regular expression to match CGPA values in the range 2.00 - 4.00
+    const cgpaPattern = /\b(2\.\d{2}|3\.\d{2}|4\.00)\b/g;
 
-    // Check if the value is a number and within the specified range
-    if (!isNaN(floatValue) && floatValue >= 2.00 && floatValue <= 4.00) {
-        return true;
-    } else {
-        return false;
+    // Use the pattern to search the text
+    let match = cgpaPattern.exec(text);
+
+    // If a match is found, return it as a string
+    if (match) {
+        return match[0];
     }
+
+    // If no match is found, return null
+    return null;
 
 }
 
