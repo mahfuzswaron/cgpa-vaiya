@@ -35,6 +35,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         const validCgpa = validateCgpa(message);
         if (validCgpa) {
             state.userData.targetedCgpa = validCgpa;
+            state.currentQuery = null;
             handleRegulation();
         } else {
             const botMessage = createChatBotMessage("Enter your target cgpa between 2.00 - 4.00");
@@ -73,13 +74,36 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         const semester = validateSemester(message);
         if (semester) {
             state.userData.currentSemester = semester;
-            console.log(state)
+            state.currentQuery = null;
+
+            if (semester === 1) {
+                displayCgpaList()
+            } else {
+                handlePreviousResults();
+            }
+
         } else {
             const botMessage = createChatBotMessage("Enter your semester from 1st - 8th");
             updateState(botMessage);
         }
     }
 
+    // asks previous results
+    const handlePreviousResults = () => {
+        const botMessage = createChatBotMessage("Enter your previous results separeting by commas. eg: 3.00, 3.50, 3.30");
+        state.currentQuery = "previous-results";
+        // console.log(state)
+        updateState(botMessage);
+    }
+
+    const handleSubmitPreviousResults = (message) => {
+        console.log(message);
+    }
+
+
+    const displayCgpaList = () => {
+        console.log("here's the result");
+    }
 
 
 
@@ -93,7 +117,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
                         handleSubmitTargetCgpa,
                         handleRegulation,
                         handleSubmitRegulation,
-                        handleSubmitCurrentSemester
+                        handleSubmitCurrentSemester,
+                        handleSubmitPreviousResults
                     },
                 });
             })}
