@@ -1,5 +1,5 @@
 import React from 'react';
-import { validateCgpa } from '../utils/validatorMethods';
+import { validateCgpa, validateSemester } from '../utils/validatorMethods';
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
@@ -57,7 +57,13 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }
 
     const handleSubmitCurrentSemester = (message) => {
-        console.log(message);
+        const semester = validateSemester(message);
+        if(semester){
+            children.props.children.props.state.userData.currentSemester = semester;
+        } else {
+            const botMessage = createChatBotMessage("Enter your semester from 1st - 8th");
+            updateState(botMessage);
+        }
     }
 
 
