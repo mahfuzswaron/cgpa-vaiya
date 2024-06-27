@@ -1,6 +1,7 @@
 import React from 'react';
 import { validateCgpa, validatePrevResults, validateSemester } from '../utils/validatorMethods';
-import { getCgpaList } from '../utils/get-cgpa-list';
+import { getPredictedResult } from '../utils/get-cgpa-list';
+const semesterLables = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'];
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
@@ -116,15 +117,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
 
 
-    const displayCgpaList = (previousResults = null) => {
+    const displayCgpaList = async (previousResults = null) => {
         // get the state 
         const userState = children.props.children.props.state.userData;
-        getCgpaList({...userState, previousResults});
 
         // get the cgpa list from the server
+        const predictedResult = await getPredictedResult({ ...userState, previousResults });
+        const { message, cgpa_array } = predictedResult;
 
-        // write a message 
-        // print the cgpa list
+        const cgpaList = semesterLables.map((semester, index) => `${semester} => ${cgpa_array[index]}`).join("\n")
+        const botMessage = createChatBotMessage(message + "\n" + cgpaList);
+        
+
+        updateState(botMessage);
     }
 
 
