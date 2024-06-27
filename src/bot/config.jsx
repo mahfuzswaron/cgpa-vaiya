@@ -21,9 +21,9 @@ const config = {
             previousResults: null,
         },
     },
-    // customComponents:{
-    //     botAvatar : (props) => <BotAvatar {...props} />
-    // },
+    customComponents: {
+        botAvatar: (props) => <BotAvatar {...props} />
+    },
 
     widgets: [
         {
