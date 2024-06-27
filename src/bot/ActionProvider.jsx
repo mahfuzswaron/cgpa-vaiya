@@ -2,28 +2,34 @@ import React from 'react';
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
-    const handleHello = () => {
-        const botMessage = createChatBotMessage('Hello. Nice to meet you.');
-        updateState(botMessage)
-    };
-
-    const handleSession = () => {
-        const botMessage = createChatBotMessage(
-            "What's your Session?",
-            {
-                widget: 'Session',
-            }
-        );
-        updateState(botMessage)
-
-    };
-
     const updateState = (botMessage) => {
         setState((prev) => ({
             ...prev,
             messages: [...prev.messages, botMessage],
         }));
     }
+
+    const handleHello = () => {
+        const botMessage = createChatBotMessage('Hello. Nice to meet you.');
+        updateState(botMessage)
+    };
+
+    const handleRegulation = () => {
+        const botMessage = createChatBotMessage(
+            "What's your Regulation?",
+            {
+                widget: 'Regulation',
+            }
+        );
+        updateState(botMessage)
+
+    };
+
+    const handleUpdateRegulation = (regulation) => {
+        children.props.children.props.state.userData.regulation = regulation;
+        // console.log(children.props.children.props.state.userData.regulation);
+    }
+
 
 
     return (
@@ -32,7 +38,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
                 return React.cloneElement(child, {
                     actions: {
                         handleHello,
-                        handleSession
+                        handleRegulation,
+                        handleUpdateRegulation
                     },
                 });
             })}
