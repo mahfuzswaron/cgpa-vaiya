@@ -16,7 +16,7 @@ const config = {
             regulation: null,
             targetedCgpa: null,
             currentSemester: null,
-            previousResults: [],
+            previousResults: null,
         },
     },
     widgets: [

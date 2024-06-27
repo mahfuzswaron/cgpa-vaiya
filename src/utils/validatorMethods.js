@@ -1,4 +1,4 @@
-export const validateCgpa = (text) => {
+export const validateCgpa = (text, quantity = "single") => {
     // Regular expression to match CGPA values in the range 2.00 - 4.00
     const cgpaPattern = /\b(2\.\d{2}|3\.\d{2}|4\.00)\b/g;
 
@@ -7,7 +7,11 @@ export const validateCgpa = (text) => {
 
     // If a match is found, return it as a string
     if (match) {
-        return match[0];
+        if(quantity === "all"){
+            return match;
+        } else{
+            return match[0];
+        }
     }
 
     // If no match is found, return null
@@ -38,4 +42,29 @@ export const validateSemester = (text) => {
 
     // If no match is found, return null
     return null;
+}
+
+export const validatePrevResults = (text) =>{
+    // Split the text into an array of strings
+    const parts = text.split(/,\s*/); // Assuming CGPAs are separated by commas followed by optional whitespace
+
+    // Filter the array to keep only valid CGPAs
+    const validCgpas = parts.filter(part => {
+        // Remove leading/trailing whitespace and check if the part is a number
+        const trimmedPart = part.trim();
+        if (!isNaN(trimmedPart)) {
+            // Convert the part to a float and check if it has exactly two decimal places
+            const cgpa = parseFloat(trimmedPart);
+            if (cgpa >= 2.00 && cgpa <= 4.00) {
+                return true; // Valid CGPA
+            }
+        }
+        return false; // Not a valid CGPA
+    });
+
+    // Join the valid CGPAs into a single string separated by commas
+    return {
+        cgpas: validCgpas.join(', '),
+        len: validCgpas.length
+    };
 }
