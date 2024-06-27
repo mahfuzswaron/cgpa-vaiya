@@ -3,14 +3,21 @@ import { validateCgpa, validateSemester } from '../utils/validatorMethods';
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
-    const state = children.props.children.props.state;
-
-    const updateState = (botMessage) => {
+    const updateState = (botMessage, currentQuery = null) => {
         setState((prev) => ({
             ...prev,
             messages: [...prev.messages, botMessage],
+            currentQuery
         }));
     }
+
+    const updateUserData = (updatedData) => {
+        setState((prev) => ({
+            ...prev,
+            userData: { ...prev.userData, ...updatedData }
+        }))
+    }
+
 
     const handleHello = () => {
         const botMessage = createChatBotMessage('Hello. Nice to meet you.');
@@ -26,20 +33,19 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     // asks cgpa 
     const handleTargetCgpa = () => {
         const botMessage = createChatBotMessage("What's your target CGPA?");
-        state.currentQuery = "target-cgpa";
-        updateState(botMessage);
+        updateState(botMessage, "target-cgpa");
     }
 
     // receives cgpa 
     const handleSubmitTargetCgpa = (message) => {
         const validCgpa = validateCgpa(message);
         if (validCgpa) {
-            state.userData.targetedCgpa = validCgpa;
-            state.currentQuery = null;
+            // children.props.children.props.state.userData.targetedCgpa = validCgpa;
+            updateUserData({ targetedCgpa: validCgpa })
             handleRegulation();
         } else {
             const botMessage = createChatBotMessage("Enter your target cgpa between 2.00 - 4.00");
-            updateState(botMessage);
+            updateState(botMessage, "target-cgpa");
         }
     }
 
@@ -57,7 +63,8 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
     // receives regulation 
     const handleSubmitRegulation = (regulation) => {
-        state.userData.regulation = regulation;
+        children.props.children.props.state.userData.regulation = regulation;
+        updateUserData({ regulation: regulation })
         handleCurrentSemester()
     }
 
@@ -65,17 +72,16 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     // asks semeseter
     const handleCurrentSemester = () => {
         const botMessage = createChatBotMessage("what's your current semester?");
-        state.currentQuery = "current-semester";
-        updateState(botMessage);
+        updateState(botMessage, "current-semester");
     }
 
     // receives semeseter
     const handleSubmitCurrentSemester = (message) => {
         const semester = validateSemester(message);
+        console.log("in sub-cur-sem", semester)
         if (semester) {
-            state.userData.currentSemester = semester;
-            state.currentQuery = null;
-
+            // children.props.children.props.state.userData.currentSemester = semester;
+            updateUserData({ currentSemester: semester })
             if (semester === 1) {
                 displayCgpaList()
             } else {
@@ -84,19 +90,18 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
         } else {
             const botMessage = createChatBotMessage("Enter your semester from 1st - 8th");
-            updateState(botMessage);
+            updateState(botMessage, "current-semester");
         }
     }
 
     // asks previous results
     const handlePreviousResults = () => {
         const botMessage = createChatBotMessage("Enter your previous results separeting by commas. eg: 3.00, 3.50, 3.30");
-        state.currentQuery = "previous-results";
-        // console.log(state)
-        updateState(botMessage);
+        updateState(botMessage, "previous-results");
     }
 
     const handleSubmitPreviousResults = (message) => {
+        
         console.log(message);
     }
 

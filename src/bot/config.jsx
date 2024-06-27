@@ -17,7 +17,7 @@ const config = {
             targetedCgpa: null,
             currentSemester: null,
             previousResults: [],
-        }
+        },
     },
     widgets: [
         {
