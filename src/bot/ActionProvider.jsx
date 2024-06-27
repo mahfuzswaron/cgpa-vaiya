@@ -1,4 +1,5 @@
 import React from 'react';
+import { validateCgpa } from '../utils/validatorMethods';
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
@@ -14,7 +15,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         updateState(botMessage)
     };
 
-    const handleClickStart = () =>{
+    const handleClickStart = () => {
         handleTargetCgpa();
     }
 
@@ -25,7 +26,12 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }
 
     const handleSubmitTargetCgpa = (message) => {
-        console.log(message)
+        const cgpa = message.trim();
+        const validCgpa = validateCgpa(cgpa);
+        if (validCgpa) {
+            children.props.children.props.state.userData.targetedCgpa = cgpa;
+            handleRegulation();
+        }
     }
 
     const handleRegulation = () => {
@@ -41,6 +47,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
     const handleSubmitRegulation = (regulation) => {
         children.props.children.props.state.userData.regulation = regulation;
+        
     }
 
 
