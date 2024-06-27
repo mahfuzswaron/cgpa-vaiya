@@ -3,6 +3,8 @@ import { validateCgpa, validateSemester } from '../utils/validatorMethods';
 
 const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
+    const state = children.props.children.props.state;
+
     const updateState = (botMessage) => {
         setState((prev) => ({
             ...prev,
@@ -15,20 +17,24 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         updateState(botMessage)
     };
 
+    // start conversation
     const handleClickStart = () => {
         handleTargetCgpa();
     }
 
+
+    // asks cgpa 
     const handleTargetCgpa = () => {
         const botMessage = createChatBotMessage("What's your target CGPA?");
-        children.props.children.props.state.currentQuery = "target-cgpa";
+        state.currentQuery = "target-cgpa";
         updateState(botMessage);
     }
 
+    // receives cgpa 
     const handleSubmitTargetCgpa = (message) => {
         const validCgpa = validateCgpa(message);
         if (validCgpa) {
-            children.props.children.props.state.userData.targetedCgpa = validCgpa;
+            state.userData.targetedCgpa = validCgpa;
             handleRegulation();
         } else {
             const botMessage = createChatBotMessage("Enter your target cgpa between 2.00 - 4.00");
@@ -36,6 +42,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         }
     }
 
+    // asks regulation 2016 / 2021
     const handleRegulation = () => {
         const botMessage = createChatBotMessage(
             "What's your Regulation?",
@@ -47,21 +54,26 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
     };
 
+    // receives regulation 
     const handleSubmitRegulation = (regulation) => {
-        children.props.children.props.state.userData.regulation = regulation;
+        state.userData.regulation = regulation;
         handleCurrentSemester()
     }
 
+
+    // asks semeseter
     const handleCurrentSemester = () => {
         const botMessage = createChatBotMessage("what's your current semester?");
-        children.props.children.props.state.currentQuery = "current-semester";
+        state.currentQuery = "current-semester";
         updateState(botMessage);
     }
 
+    // receives semeseter
     const handleSubmitCurrentSemester = (message) => {
         const semester = validateSemester(message);
-        if(semester){
-            children.props.children.props.state.userData.currentSemester = semester;
+        if (semester) {
+            state.userData.currentSemester = semester;
+            console.log(state)
         } else {
             const botMessage = createChatBotMessage("Enter your semester from 1st - 8th");
             updateState(botMessage);
