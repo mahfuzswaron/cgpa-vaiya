@@ -8,26 +8,28 @@ const CgpaList = (props) => {
 
     return (
         <div className='react-chatbot-kit-chat-bot-message-container'>
-            <table className="min-w-[300px] w-[400px] divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                    <tr>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Semesters
-                        </th>
-                        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            CGPA
-                        </th>
-                    </tr>
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                    {semesterLables.map((label, index) => (
-                        <tr key={index}>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{label}</td>
-                            <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">{cgpa_array[index]}</td>
+            <div className='min-w-[300px] w-[400px]'>
+                <table className="w-full divide-y divide-secondary ">
+                    <thead className="bg-primary">
+                        <tr>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-light">
+                                Semesters
+                            </th>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-light">
+                                CGPA
+                            </th>
                         </tr>
-                    ))}
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody className="divide-y divide-secondary bg-white">
+                        {semesterLables.map((label, index) => (
+                            <tr key={index} className="text-secondary hover:bg-secondary hover:text-light">
+                                <td className="px-6 py-4 whitespace-nowrap text-sm ">{label}</td>
+                                <td className="px-6 py-4 whitespace-nowrap text-sm ">{cgpa_array[index]}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 };

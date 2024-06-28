@@ -6,10 +6,11 @@ export default {
   ],
   theme: {
     extend: {
-      "colors": {
-        "green": "#0F9D58",
-        "red": "#DB4437",
-      }
+      colors: {
+        primary: '#836FFF',
+        secondary: '#211951',
+        light: '#F0F3FF',
+      },
     },
   },
   plugins: [],

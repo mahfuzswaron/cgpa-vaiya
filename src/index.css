@@ -1,54 +1,60 @@
-/* poppins */
+/* Import Fonts */
+@import url('https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic');
+@import url('https://fonts.googleapis.com/css?family=Hind+Siliguri:300,regular,500,600,700');
 
-@import url(https://fonts.googleapis.com/css?family=Poppins:100,100italic,200,200italic,300,300italic,regular,italic,500,500italic,600,600italic,700,700italic,800,800italic,900,900italic);
-
-/* Hind shiliguri */
-
-@import url(https://fonts.googleapis.com/css?family=Hind+Siliguri:300,regular,500,600,700);
-
+/* Tailwind Base, Components, and Utilities */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
+/* CSS Variables */
 :root {
-  font-family: 'Poppins';
+  --primary: #836FFF;
+  --secondary: #211951;
+  --light: #F0F3FF;
+  --font-poppins: 'Poppins', sans-serif;
+  --font-hind-siliguri: 'Hind Siliguri', sans-serif;
+  --color-light: rgba(255, 255, 255, 0.87);
+  --bg-dark: #211951;
+  --bg-light: #F0F3FF;
+  --scrollbar-width: 2px;
+  --scrollbar-bg: #f1f1f1;
+  --scrollbar-thumb: #888;
+  --scrollbar-thumb-hover: #555;
+
+  font-family: var(--font-poppins);
   line-height: 1.5;
   font-weight: 400;
-
   color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #211951;
+  color: var(--color-light);
+  background-color: var(--bg-dark);
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
-
-  ::-webkit-scrollbar {
-    width: 2px;
-  }
-
-  /* Track */
-  ::-webkit-scrollbar-track {
-    background: #f1f1f1;
-  }
-
-  /* Handle */
-  ::-webkit-scrollbar-thumb {
-    background: #888;
-  }
-
-  /* Handle on hover */
-  ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-  }
 }
 
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
+}
+
+::-webkit-scrollbar-track {
+  background: var(--scrollbar-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--scrollbar-thumb);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--scrollbar-thumb-hover);
+}
+
+/* Anchor Styles */
 a {
   font-weight: 500;
   color: #646cff;
@@ -59,12 +65,13 @@ a:hover {
   color: #535bf2;
 }
 
-
+/* Heading Styles */
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
 
+/* Button Styles */
 button {
   border-radius: 8px;
   padding: 0.6em 1.2em;
@@ -72,29 +79,88 @@ button {
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  @apply bg-[#211951] text-[#F0F3FF] border-4 border-transparent;
+  @apply bg-[var(--bg-dark)] text-[var(--light)] border-4 border-transparent;
 }
 
 button:hover {
-  @apply border-4 border-[#836FFF];
+  @apply border-4 border-[var(--primary)];
   transition: border 0.25s;
-
 }
 
 button:focus,
 button:focus-visible {
-  @apply border-4 border-[#836FFF];
+  @apply border-4 border-[var(--primary)];
 }
 
+/* Hind Shiliguri Font Class */
 .font-hind-siliguri {
-  font-family: 'Hind Siliguri';
+  font-family: var(--font-hind-siliguri);
 }
 
+/* Chatbot Kit Styles */
+.react-chatbot-kit-chat-header {
+  @apply bg-[#747bff] text-[var(--light)];
+}
 
+.react-chatbot-kit-chat-btn-send {
+  @apply bg-[#747bff];
+}
+
+.react-chatbot-kit-chat-btn-send-icon {
+  @apply text-[var(--bg-dark)];
+}
+
+.react-chatbot-kit-chat-container {
+  @apply container h-[800px];
+}
+
+.react-chatbot-kit-chat-inner-container {
+  @apply h-[800px];
+}
+
+.react-chatbot-kit-chat-message-container {
+  @apply h-[724px] bg-[var(--light)];
+}
+
+.react-chatbot-kit-chat-bot-message {
+  @apply ml-0;
+}
+
+.react-chatbot-kit-chat-input {
+  @apply bg-white text-[var(--bg-dark)];
+}
+
+.react-chatbot-kit-chat-bot-message {
+  background-color: var(--primary);
+  width: fit-content;
+}
+
+.react-chatbot-kit-chat-bot-message-arrow {
+  border-right: 8px solid var(--primary);
+}
+
+.react-chatbot-kit-user-chat-message {
+  @apply bg-[var(--bg-dark)] text-[#fff];
+  width: fit-content;
+}
+
+.react-chatbot-kit-user-chat-message-arrow {
+  border-left: 8px solid var(--bg-dark);
+}
+
+.react-chatbot-kit-chat-bot-message-container {
+  padding-left: 50px;
+}
+
+.react-chatbot-kit-chat-bot-message-container:has(.react-chatbot-kit-chat-bot-avatar) {
+  padding-left: 0;
+}
+
+/* Media Query for Light Theme */
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
-    background-color: #F0F3FF;
+    background-color: var(--bg-light);
   }
 
   a:hover {
@@ -102,6 +168,6 @@ button:focus-visible {
   }
 
   button {
-    background-color: #F0F3FF;
+    background-color: var(--bg-light);
   }
 }
