@@ -5,6 +5,7 @@ import Start from './widgets/Start';
 import Regenerate from './widgets/Regenerate';
 import BotAvatar from '../components/BotAvatar';
 import BotHeader from '../components/BotHeader';
+import CgpaList from './widgets/CgpaList';
 
 const botName = 'CGPA Vaiya';
 
@@ -39,6 +40,10 @@ const config = {
         {
             widgetName: 'Regenerate',
             widgetFunc: (props) => <Regenerate {...props} />
+        },
+        {
+            widgetName: 'CgpaList',
+            widgetFunc: (props) => <CgpaList {...props} />
         }
     ]
 };
