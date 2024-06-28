@@ -75,11 +75,11 @@ h1 {
 button {
   border-radius: 8px;
   padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
+  font-size: 1.2em;
+  /* font-weight: 500; */
   font-family: inherit;
   cursor: pointer;
-  @apply bg-[var(--bg-dark)] text-[var(--light)] border-4 border-transparent;
+  @apply bg-[var(--bg-dark)] text-[var(--light)] border-4 border-transparent tracking-wider;
 }
 
 button:hover {
@@ -122,8 +122,11 @@ button:focus-visible {
   @apply h-[724px] bg-[var(--light)];
 }
 
+/* Bot message */
+
 .react-chatbot-kit-chat-bot-message {
-  @apply ml-0;
+  @apply ml-0 text-[1.2em] font-normal tracking-wider text-light stroke-secondary;
+  font-family: var(--font-hind-siliguri);
 }
 
 .react-chatbot-kit-chat-input {
@@ -139,8 +142,10 @@ button:focus-visible {
   border-right: 8px solid var(--primary);
 }
 
+/* User Message  */
+
 .react-chatbot-kit-user-chat-message {
-  @apply bg-[var(--bg-dark)] text-[#fff];
+  @apply bg-[var(--bg-dark)] text-[var(--light)] text-[1.2em] font-normal tracking-wider;
   width: fit-content;
 }
 

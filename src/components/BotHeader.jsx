@@ -7,16 +7,16 @@ import linkedInIcon from '../assets/linkedin.png';
 const BotHeader = () => {
     return (
         <div className='react-chatbot-kit-chat-header flex justify-between'>
-            <div>CGPA Vaiya</div>
+            <p className='text-lg'>CGPA Vaiya</p>
             <div className='flex gap-3'>
                 <a href="https://facebook.com/mahfuzswaron" target='_blank'>
-                    <img className='h-5 w-5' src={fbIcon} alt='fb icon' />
+                    <img className='h-6 w-6' src={fbIcon} alt='fb icon' />
                 </a>
                 <a href="https://github.com/mahfuzswaron">
-                    <img className='h-5 w-5' src={GitHubIcon} alt='github icon' />
+                    <img className='h-6 w-6' src={GitHubIcon} alt='github icon' />
                 </a>
                 <a href="https://linkedin.com/in/mahfuzswaron">
-                    <img className='h-5 w-5' src={linkedInIcon} alt='linkedin icon' />
+                    <img className='h-6 w-6' src={linkedInIcon} alt='linkedin icon' />
                 </a>
             </div>
         </div>
