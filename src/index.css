@@ -122,15 +122,16 @@ button:focus-visible {
 }
 
 .react-chatbot-kit-chat-container {
-  @apply container h-[800px];
+  @apply container h-screen;
 }
 
 .react-chatbot-kit-chat-inner-container {
-  @apply h-[800px];
+  @apply h-screen;
 }
 
 .react-chatbot-kit-chat-message-container {
-  @apply h-[724px] bg-[var(--light)];
+  @apply bg-[var(--light)];
+  height: calc(100vh - 76px);
 }
 
 /* Bot message */
