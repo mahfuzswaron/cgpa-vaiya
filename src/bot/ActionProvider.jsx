@@ -118,6 +118,10 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         // get the state 
         const userState = children.props.children.props.state.userData;
 
+        // const loadingMessage = createChatBotMessage("loading", {
+            
+        // })
+
         // get the cgpa list from the server
         const predictedResult = await getPredictedResult({ ...userState, previousResults });
         const { message, cgpa_array } = predictedResult;
