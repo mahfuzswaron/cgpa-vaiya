@@ -76,7 +76,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     // receives semeseter
     const handleSubmitCurrentSemester = (message) => {
         const semester = validateSemester(message);
-        console.log("in sub-cur-sem", semester)
         if (semester) {
             updateUserState({ currentSemester: semester })
             if (semester === 1) {
@@ -97,7 +96,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         updateState(botMessage, "previous-results");
     }
 
-    const handleSubmitPreviousResults = async (message) => {
+    const handleSubmitPreviousResults = (message) => {
         const currentSemester = children.props.children.props.state.userData.currentSemester;
         const prevResultLength = currentSemester - 1;
         const { cgpas: prevResult, len } = validatePrevResults(message);
@@ -123,8 +122,6 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         const predictedResult = await getPredictedResult({ ...userState, previousResults });
         const { message, cgpa_array } = predictedResult;
 
-        
-
         const botMessage = createChatBotMessage(message, {
             widget: 'CgpaList',
             payload: {
@@ -132,14 +129,13 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             }
         });
 
-
         updateState(botMessage);
         handleRegenerate()
     }
 
 
     const handleRegenerate = () => {
-        const botMessage = createChatBotMessage("এটা একটি পসিবল প্রেডিকশন। সেইম রেজাল্টের জন্য এরকম আরও অনেক অল্টারনেটিভ প্রেডিকশন আছে। দেখতে চাও?", {
+        const botMessage = createChatBotMessage("এটি একটি পসিবল প্রেডিকশন। সেইম রেজাল্টের জন্য এরকম আরও অনেক অল্টারনেটিভ প্রেডিকশন আছে। দেখতে চাও?", {
             widget: "Regenerate"
         })
 
