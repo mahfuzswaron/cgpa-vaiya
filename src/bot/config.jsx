@@ -11,7 +11,7 @@ const botName = 'CGPA Vaiya';
 
 const config = {
     botName: botName,
-    initialMessages: [createChatBotMessage(`Hi! I'm ${botName}. Answer my questions and get a list of CGPA to get your desired CGPA in the Final Result.`, {
+    initialMessages: [createChatBotMessage(`Hey! ফাইনাল রেজাল্টে তোমার টার্গেটেড সিজিপিএ পেতে হলে কোন সেমিস্টারে কত করে পেতে হবে জানতে চাও? তাহলে আমাকে কিছু তথ্য দিয়ে সাহায্য কর।`, {
         widget: "Start"
     })],
     state: {

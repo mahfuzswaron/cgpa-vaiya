@@ -7,8 +7,8 @@ const Regulation = (props) => {
     }
     return (
         <div className='flex flex-start gap-2 react-chatbot-kit-chat-bot-message-container'>
-            <button onClick={handleSelectRegulation} value={"diploma_2016"}>2016</button>
-            <button onClick={handleSelectRegulation} value={"diploma_2021"}>2021</button>
+            <button onClick={handleSelectRegulation} value={"diploma_2016"}>২০১৬</button>
+            <button onClick={handleSelectRegulation} value={"diploma_2022"}>২০২২</button>
         </div>
     );
 };

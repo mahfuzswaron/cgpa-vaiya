@@ -20,7 +20,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
 
     const handleHello = () => {
-        const botMessage = createChatBotMessage('Hello. Nice to meet you.');
+        const botMessage = createChatBotMessage('হ্যালো।');
         updateState(botMessage)
     };
 
@@ -32,7 +32,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
     // asks cgpa 
     const handleTargetCgpa = () => {
-        const botMessage = createChatBotMessage("What's your target CGPA?");
+        const botMessage = createChatBotMessage("ফাইনালে কত CGPA পেতে চাও?");
         updateState(botMessage, "target-cgpa");
     }
 
@@ -43,7 +43,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             updateUserState({ targetedCgpa: validCgpa })
             handleRegulation();
         } else {
-            const botMessage = createChatBotMessage("Enter your target cgpa between 2.00 - 4.00");
+            const botMessage = createChatBotMessage("CGPA অবশ্যই 2.00 - 4.00 এর মধ্যে হতে হবে। এবং দশমিক সংখ্যায় লিখবে।");
             updateState(botMessage, "target-cgpa");
         }
     }
@@ -51,7 +51,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     // asks regulation 2016 / 2021
     const handleRegulation = () => {
         const botMessage = createChatBotMessage(
-            "What's your Regulation?",
+            "তোমার প্রবিধান কত?",
             {
                 widget: 'Regulation',
             }
@@ -69,7 +69,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
     // asks semeseter
     const handleCurrentSemester = () => {
-        const botMessage = createChatBotMessage("what's your current semester?");
+        const botMessage = createChatBotMessage("বর্তমানে কোন সেমিস্টারে পড়ছো?");
         updateState(botMessage, "current-semester");
     }
 
@@ -86,14 +86,14 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             }
 
         } else {
-            const botMessage = createChatBotMessage("Enter your semester from 1st - 8th");
+            const botMessage = createChatBotMessage("সেমিস্টার এইভাবে লিখবেঃ 1st/2nd/3rd/8th");
             updateState(botMessage, "current-semester");
         }
     }
 
     // asks previous results
     const handlePreviousResults = () => {
-        const botMessage = createChatBotMessage("What are your prevous resutls? Enter the results separating by commas like this: 3.00, 3.50, 3.30");
+        const botMessage = createChatBotMessage("আগের সেমিস্টারগুলোতে কত করে পেয়েছ? এভাবে কমা দিয়ে আলাদা করে লিখবে - 3.00, 3.50, 3.30");
         updateState(botMessage, "previous-results");
     }
 
@@ -108,7 +108,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             displayCgpaList(prevResult)
         }
         else {
-            const botMessage = createChatBotMessage("Enter your previous results separeting by commas. eg: 3.00, 3.50, 3.30");
+            const botMessage = createChatBotMessage("সবগুলো রেজাল্ট দাও। আর এভাবে কমা দিয়ে আলাদা করে লিখবে - 3.00, 3.50, 3.30");
             updateState(botMessage, "previous-results");
         }
     }
@@ -139,7 +139,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
 
 
     const handleRegenerate = () => {
-        const botMessage = createChatBotMessage("regenarate?", {
+        const botMessage = createChatBotMessage("এটা একটি পসিবল প্রেডিকশন। সেইম রেজাল্টের জন্য এরকম আরও অনেক অল্টারনেটিভ প্রেডিকশন আছে। দেখতে চাও?", {
             widget: "Regenerate"
         })
 
