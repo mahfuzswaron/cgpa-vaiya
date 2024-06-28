@@ -4,6 +4,7 @@ import Regulation from './widgets/Regulation';
 import Start from './widgets/Start';
 import Regenerate from './widgets/Regenerate';
 import BotAvatar from '../components/BotAvatar';
+import BotHeader from '../components/BotHeader';
 
 const botName = 'CGPA Vaiya';
 
@@ -22,7 +23,8 @@ const config = {
         },
     },
     customComponents: {
-        botAvatar: (props) => <BotAvatar {...props} />
+        botAvatar: (props) => <BotAvatar {...props} />,
+        header: (props) => <BotHeader {...props} />
     },
 
     widgets: [

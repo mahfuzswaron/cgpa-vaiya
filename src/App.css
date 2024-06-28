@@ -4,11 +4,11 @@
 }
 
 .react-chatbot-kit-chat-header {
-  @apply bg-[#15F5BA]
+  @apply bg-[#747bff] text-[#F0F3FF]
 }
 
 .react-chatbot-kit-chat-btn-send {
-  @apply bg-[#15F5BA]
+  @apply bg-[#747bff]
 }
 
 .react-chatbot-kit-chat-btn-send-icon {

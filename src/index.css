@@ -30,29 +30,29 @@
   -webkit-text-size-adjust: 100%;
 
   ::-webkit-scrollbar {
-      width: 2px;
-    }
-  
-    /* Track */
-    ::-webkit-scrollbar-track {
-      background: #f1f1f1;
-    }
-  
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-      background: #888;
-    }
-  
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-      background: #555;
-    }
+    width: 2px;
+  }
+
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1;
+  }
+
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888;
+  }
+
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
 }
 
 a {
   font-weight: 500;
   color: #646cff;
-  text-decoration: inherit;
+  text-decoration: none;
 }
 
 a:hover {
@@ -72,17 +72,18 @@ button {
   font-weight: 500;
   font-family: inherit;
   cursor: pointer;
-  transition: border-color 0.25s;
-  @apply bg-[#211951] text-[#F0F3FF] border-4 border-[#836FFF]
+  @apply bg-[#211951] text-[#F0F3FF] border-4 border-transparent;
 }
 
 button:hover {
-  border-color: #646cff;
+  @apply border-4 border-[#836FFF];
+  transition: border 0.25s;
+
 }
 
 button:focus,
 button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
+  @apply border-4 border-[#836FFF];
 }
 
 .font-hind-siliguri {
