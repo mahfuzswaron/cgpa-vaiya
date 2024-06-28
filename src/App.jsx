@@ -1,5 +1,4 @@
 import Bot from './pages/Bot';
-import "./App.css";
 import { useEffect } from 'react';
 
 

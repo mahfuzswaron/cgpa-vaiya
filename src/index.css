@@ -97,6 +97,17 @@ button:focus-visible {
   font-family: var(--font-hind-siliguri);
 }
 
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
 /* Chatbot Kit Styles */
 .react-chatbot-kit-chat-header {
   @apply bg-[#747bff] text-[var(--light)];
@@ -127,6 +138,7 @@ button:focus-visible {
 .react-chatbot-kit-chat-bot-message {
   @apply ml-0 text-[1.2em] font-normal tracking-wider text-light stroke-secondary;
   font-family: var(--font-hind-siliguri);
+  animation: fadeIn 0.50s ease-in-out;
 }
 
 .react-chatbot-kit-chat-input {
@@ -146,7 +158,7 @@ button:focus-visible {
 
 .react-chatbot-kit-user-chat-message {
   @apply bg-[var(--bg-dark)] text-[var(--light)] text-[1.2em] font-normal tracking-wider;
-  width: fit-content;
+  animation: fadeIn 0.50s ease-in-out;
 }
 
 .react-chatbot-kit-user-chat-message-arrow {
