@@ -72,15 +72,19 @@ h1 {
 }
 
 /* Button Styles */
-button {
+button,
+[type='button'],
+[type='reset'],
+[type='submit'] {
   border-radius: 8px;
   padding: 0.6em 1.2em;
   font-size: 1.2em;
   /* font-weight: 500; */
   font-family: inherit;
   cursor: pointer;
-  @apply bg-[var(--bg-dark)] text-[var(--light)] border-4 border-transparent tracking-wider;
+  @apply bg-secondary text-[var(--light)] border-4 border-transparent tracking-wider;
 }
+
 
 button:hover {
   @apply border-4 border-[var(--primary)];
@@ -95,6 +99,17 @@ button:focus-visible {
 /* Hind Shiliguri Font Class */
 .font-hind-siliguri {
   font-family: var(--font-hind-siliguri);
+}
+
+.results-input {
+  border: 2px solid var(--light);
+}
+
+.results-input:hover,
+.results-input:focus-visible,
+.results-input:focus {
+  border: 2px solid var(--primary);
+  outline: none;
 }
 
 
@@ -174,18 +189,13 @@ button:focus-visible {
   padding-left: 0;
 }
 
-/* Media Query for Light Theme */
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: var(--bg-light);
-  }
 
-  a:hover {
-    color: #747bff;
-  }
+/* bot input  */
+.react-chatbot-kit-chat-input {
+  @apply px-[0.6em] py-[1.2em] border-2 border-double border-light rounded-lg;
+}
 
-  button {
-    background-color: var(--bg-light);
-  }
+.react-chatbot-kit-chat-input:focus,
+.react-chatbot-kit-chat-input:focus-visible {
+  @apply border-2 border-double border-primary rounded-lg outline-none;
 }

@@ -16,7 +16,7 @@ const MessageParser = ({ children, actions }) => {
                 actions.handleSubmitCurrentSemester(message);
                 break;
             case "previous-results":
-                actions.handleSubmitPreviousResults(message);
+                actions.handleSubmitPreviousResults(message, "parser");
                 break;
             default:
                 break;

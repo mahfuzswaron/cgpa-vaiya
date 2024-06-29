@@ -81,7 +81,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
             if (semester === 1) {
                 displayCgpaList()
             } else {
-                handlePreviousResults();
+                handlePreviousResults(semester);
             }
 
         } else {
@@ -91,24 +91,32 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
     }
 
     // asks previous results
-    const handlePreviousResults = () => {
-        const botMessage = createChatBotMessage("আগের সেমিস্টারগুলোতে কত করে পেয়েছ? এভাবে কমা দিয়ে আলাদা করে লিখবে - 3.00, 3.50, 3.30");
+    const handlePreviousResults = (currentSemester) => {
+        const botMessage = createChatBotMessage("আগের সেমিস্টারগুলোতে কত করে পেয়েছ?", {
+            widget: 'PrevResultsForm',
+            payload: { currentSemester: currentSemester }
+        });
         updateState(botMessage, "previous-results");
     }
 
-    const handleSubmitPreviousResults = (message) => {
-        const currentSemester = children.props.children.props.state.userData.currentSemester;
-        const prevResultLength = currentSemester - 1;
-        const { cgpas: prevResult, len } = validatePrevResults(message);
-        console.log(prevResult, len)
+    const handleSubmitPreviousResults = (message, via = "form") => {
+        // const currentSemester = children.props.children.props.state.userData.currentSemester;
+        // const prevResultLength = currentSemester - 1;
+        // const { cgpas: prevResult, len } = validatePrevResults(message);
+        // console.log(prevResult, len)
         // check if the message contains all the result
-        if (prevResultLength === len) {
-            updateUserState({ previousResults: prevResult });
-            displayCgpaList(prevResult)
-        }
-        else {
-            const botMessage = createChatBotMessage("সবগুলো রেজাল্ট দাও। আর এভাবে কমা দিয়ে আলাদা করে লিখবে - 3.00, 3.50, 3.30");
+
+        if (via === "parser") {
+            const botMessage = createChatBotMessage("পূর্ববর্তী রেজাল্টগুলো ফর্মে লিখে সেন্ড কর।", 
+                {
+                    widget: 'PrevResultsForm',
+                    payload: { currentSemester: children.props.children.props.state.userData.currentSemester }
+                }
+            );
             updateState(botMessage, "previous-results");
+        } else {
+            updateUserState({ previousResults: message });
+            displayCgpaList(message)
         }
     }
 
@@ -119,7 +127,7 @@ const ActionProvider = ({ createChatBotMessage, setState, children }) => {
         const userState = children.props.children.props.state.userData;
 
         // const loadingMessage = createChatBotMessage("loading", {
-            
+
         // })
 
         // get the cgpa list from the server

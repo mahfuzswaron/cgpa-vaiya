@@ -6,6 +6,7 @@ import Regenerate from './widgets/Regenerate';
 import BotAvatar from '../components/BotAvatar';
 import BotHeader from '../components/BotHeader';
 import CgpaList from './widgets/CgpaList';
+import PrevResultsForm from './widgets/PrevResultsForm';
 
 const botName = 'CGPA Vaiya';
 
@@ -36,6 +37,10 @@ const config = {
         {
             widgetName: 'Regulation',
             widgetFunc: (props) => <Regulation {...props} />,
+        },
+        {
+            widgetName: 'PrevResultsForm',
+            widgetFunc: (props) => <PrevResultsForm {...props} />,
         },
         {
             widgetName: 'Regenerate',
