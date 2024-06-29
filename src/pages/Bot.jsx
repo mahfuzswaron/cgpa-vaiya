@@ -3,26 +3,27 @@ import 'react-chatbot-kit/build/main.css'
 import config from '../bot/config';
 import MessageParser from '../bot/MessageParser';
 import ActionProvider from '../bot/ActionProvider';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 const Bot = () => {
+    const [isFullscreen, setIsFullscreen] = useState(false);
+
     useEffect(() => {
-        // Timeout is used to ensure the scroll happens after the initial rendering
-        const hideAddressBar = () => {
-            window.scrollTo(0, 1);
-        };
+        function onFullscreenChange() {
+            setIsFullscreen(Boolean(document.fullscreenElement));
+        }
 
-        // Delay the scroll action to ensure the page is fully loaded
-        setTimeout(hideAddressBar, 100);
+        document.addEventListener('fullscreenchange', onFullscreenChange);
 
-        // Add an event listener to re-hide the address bar on orientation change
-        window.addEventListener('orientationchange', hideAddressBar);
-
-        // Cleanup event listener on component unmount
-        return () => {
-            window.removeEventListener('orientationchange', hideAddressBar);
-        };
+        return () => document.removeEventListener('fullscreenchange', onFullscreenChange);
     }, []);
+
+    useEffect(() => {
+        if (!isFullscreen) {
+            document.body.requestFullscreen().catch(err => console.error(err));
+        }
+    }, [isFullscreen]);
+
     return (
         <div className='container mx-auto w-full '>
             <Chatbot
