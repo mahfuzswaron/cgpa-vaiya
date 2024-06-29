@@ -1,17 +1,22 @@
 import React from 'react';
 const semesterLables = ['1st', '2nd', '3rd', '4th', '5th', '6th', '7th', '8th'];
 
-const PrevResultsForm = ({ payload }) => {
+const PrevResultsForm = ({ payload, actions }) => {
     const { currentSemester } = payload;
     const inputToPrint = currentSemester - 1;
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log(e.target.sem_1st.value)
+        const formData = new FormData(e.target);
+        const formObject = Object.fromEntries(formData.entries());
+
+        const results = Object.values(formObject).join(",");
+        
+        actions.handleSubmitPreviousResults(results);
     }
     return (
         <div className='react-chatbot-kit-chat-bot-message-container'>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-y-2 font-[poppins]'>
+            <form id='prev-results-form' onSubmit={handleSubmit} className='flex flex-col gap-y-2 font-[poppins]'>
                 {
                     Array(inputToPrint).fill("sem").map((sem, index) => <input
                         className='results-input bg-white text-secondary block w-full px-[0.6em] py-[1.2em] '
