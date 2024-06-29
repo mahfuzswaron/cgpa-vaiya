@@ -11,7 +11,7 @@ const PrevResultsForm = ({ payload }) => {
     }
     return (
         <div className='react-chatbot-kit-chat-bot-message-container'>
-            <form onSubmit={handleSubmit} className='flex flex-col gap-y-2'>
+            <form onSubmit={handleSubmit} className='flex flex-col gap-y-2 font-[poppins]'>
                 {
                     Array(inputToPrint).fill("sem").map((sem, index) => <input
                         className='results-input bg-white text-secondary block w-full px-[0.6em] py-[1.2em] '
