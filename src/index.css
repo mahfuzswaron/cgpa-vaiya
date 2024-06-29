@@ -77,7 +77,7 @@ button,
 [type='reset'],
 [type='submit'] {
   border-radius: 8px;
-  padding: 0.6em 1.2em;
+  padding: 0.4em 0.8em;
   font-size: 1.2em;
   /* font-weight: 500; */
   font-family: inherit;
@@ -137,16 +137,16 @@ button:focus-visible {
 }
 
 .react-chatbot-kit-chat-container {
-  @apply container h-screen;
+  @apply container h-[100dvh];
 }
 
 .react-chatbot-kit-chat-inner-container {
-  @apply h-screen;
+  @apply h-[100dvh];
 }
 
 .react-chatbot-kit-chat-message-container {
   @apply bg-[var(--light)];
-  height: calc(100vh - 76px);
+  height: calc(100dvh - 76px);
 }
 
 /* Bot message */
@@ -192,10 +192,14 @@ button:focus-visible {
 
 /* bot input  */
 .react-chatbot-kit-chat-input {
-  @apply px-[0.6em] py-[1.2em] border-2 border-double border-light rounded-lg;
+  @apply px-[0.6em] py-[1.2em] border-2 border-double border-gray-400 rounded-lg;
 }
 
 .react-chatbot-kit-chat-input:focus,
 .react-chatbot-kit-chat-input:focus-visible {
+  @apply border-2 border-double border-primary rounded-lg outline-none;
+}
+
+.react-chatbot-kit-chat-input:hover {
   @apply border-2 border-double border-primary rounded-lg outline-none;
 }
