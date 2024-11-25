@@ -12,10 +12,10 @@ const BotHeader = () => {
                 <a href="https://facebook.com/mahfuzswaron" target='_blank'>
                     <img className='h-6 w-6' src={fbIcon} alt='fb icon' />
                 </a>
-                <a href="https://github.com/mahfuzswaron">
-                    <img className='h-6 w-6' src={GitHubIcon} alt='github icon' />
+                <a href="https://github.com/mahfuzswaron" target='_blank'>
+                    <img className='h-6 w-6' src={GitHubIcon} alt='github icon'/>
                 </a>
-                <a href="https://linkedin.com/in/mahfuzswaron">
+                <a href="https://linkedin.com/in/mahfuzswaron" target='_blank'>
                     <img className='h-6 w-6' src={linkedInIcon} alt='linkedin icon' />
                 </a>
             </div>
